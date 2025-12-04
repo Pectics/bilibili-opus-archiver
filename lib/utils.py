@@ -54,7 +54,11 @@ def load_config(path: str = "config.ini") -> Dict[str, Any]:
         print(f"[ERROR] config file not found: {path}")
         sys.exit(1)
 
-    cfg = configparser.ConfigParser()
+    # 关掉 % 插值，开启行内注释
+    cfg = configparser.ConfigParser(
+        interpolation=None,
+        inline_comment_prefixes=("#", ";")
+    )
     cfg.read(path, encoding="utf-8")
 
     try:
