@@ -4,3 +4,8 @@
 *.jsonl
 
 .env.local
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
