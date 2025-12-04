@@ -31,7 +31,7 @@ def get_bundled_path(filename: str) -> str:
     """
     if getattr(sys, 'frozen', False):
         # 打包后的 exe
-        base_path = sys._MEIPASS
+        base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     else:
         # 普通 Python 脚本运行
         base_path = os.path.dirname(os.path.abspath(__file__))
@@ -53,7 +53,7 @@ def ensure_default_files() -> None:
             default_path = get_bundled_path(default_file)
             if os.path.exists(default_path):
                 shutil.copy(default_path, target_file)
-                print(f"[INFO] Created default {target_file} from template. Please edit it with your settings.")
+                print(f"[INFO] Created default {target_file} from template. Please edit it with your settings and restart the program.")
             else:
                 print(f"[WARN] Default template {default_file} not found, skipping.")
 
