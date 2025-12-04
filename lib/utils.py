@@ -62,19 +62,34 @@ def load_config(path: str = "config.ini") -> Dict[str, Any]:
     cfg.read(path, encoding="utf-8")
 
     try:
-        host_mid = cfg.getint("common", "host_mid")
+        # host_mid 可能为空，需要特殊处理
+        host_mid_str = cfg.get("common", "host_mid", fallback="").strip()
+        host_mid = int(host_mid_str) if host_mid_str else None
+
         output_path = cfg.get("common", "output_path")
 
         user_agent = cfg.get("http", "user_agent")
         accept_language = cfg.get("http", "accept_language", fallback="zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
         origin = cfg.get("http", "origin", fallback="https://space.bilibili.com")
-        referer = cfg.get("http", "referer", fallback=f"https://space.bilibili.com/{host_mid}/upload/opus")
+        # 如果 host_mid 为空，referer 使用默认值
+        default_referer = f"https://space.bilibili.com/{host_mid}/upload/opus" if host_mid else "https://space.bilibili.com"
+        referer = cfg.get("http", "referer", fallback=default_referer)
 
         delay = cfg.getfloat("fetch", "delay", fallback=0.3)
         web_location = cfg.get("fetch", "web_location", fallback="333.1387")
     except (configparser.NoSectionError, configparser.NoOptionError) as e:
         print(f"[ERROR] config format error: {e}")
         sys.exit(1)
+    except ValueError:
+        # host_mid 不是有效的整数
+        host_mid = None
+        output_path = cfg.get("common", "output_path")
+        user_agent = cfg.get("http", "user_agent")
+        accept_language = cfg.get("http", "accept_language", fallback="zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
+        origin = cfg.get("http", "origin", fallback="https://space.bilibili.com")
+        referer = cfg.get("http", "referer", fallback="https://space.bilibili.com")
+        delay = cfg.getfloat("fetch", "delay", fallback=0.3)
+        web_location = cfg.get("fetch", "web_location", fallback="333.1387")
 
     return {
         "host_mid": host_mid,
