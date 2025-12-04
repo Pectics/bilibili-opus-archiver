@@ -21,13 +21,14 @@
 ```
 bilibili-opus-archiver/
 ├─ lib/
+|  ├─ defaults/
+|  |  ├─ config.ini.default  # 通用配置模板
+|  |  └─ .env.default        # 环境变量配置模板
 |  ├─ crawler.py    # 封装所有网络请求 & 翻页逻辑
 |  ├─ files.py      # 读写 jsonl、增量追加、字段清洗
 |  └─ utils.py      # 通用工具：env 加载、cookie 解析、参数处理
 ├─ .env             # 环境变量配置（首次运行自动生成）
-├─ .env.default     # 环境变量配置模板
 ├─ config.ini       # 通用配置（首次运行自动生成）
-├─ config.ini.default # 通用配置模板
 └─ main.py          # 主入口：full / incremental(inc) 两种模式
 ```
 

@@ -44,8 +44,8 @@ def ensure_default_files() -> None:
     如果不存在则从默认模板复制。
     """
     files_to_check = [
-        ("config.ini", "config.ini.default"),
-        (".env", ".env.default"),
+        ("config.ini", os.path.join("lib", "defaults", "config.ini.default")),
+        (".env", os.path.join("lib", "defaults", ".env.default")),
     ]
 
     for target_file, default_file in files_to_check:

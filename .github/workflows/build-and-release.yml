@@ -29,7 +29,7 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --onefile --name bilibili-opus-archiver --add-data "config.ini.default;." --add-data ".env.default;." main.py
+          pyinstaller --onefile --name bilibili-opus-archiver --add-data "lib/defaults/config.ini.default;lib/defaults" --add-data "lib/defaults/.env.default;lib/defaults" main.py
 
       - name: Get short SHA
         id: sha
