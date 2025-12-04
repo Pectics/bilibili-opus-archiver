@@ -29,7 +29,7 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --onefile --name bilibili-opus-archiver main.py
+          pyinstaller --onefile --name bilibili-opus-archiver --add-data "lib/defaults/config.ini.default;lib/defaults" --add-data "lib/defaults/.env.default;lib/defaults" main.py
 
       - name: Get short SHA
         id: sha
@@ -46,9 +46,10 @@ jobs:
 
             ## 使用说明
             1. 下载 `bilibili-opus-archiver.exe`
-            2. 在同一目录下创建 `config.ini` 和 `.env` 配置文件
-            3. 运行 `bilibili-opus-archiver.exe full` 进行全量爬取
-            4. 运行 `bilibili-opus-archiver.exe incremental` 进行增量更新
+            2. 首次运行时，程序会自动在当前目录生成 `config.ini` 和 `.env` 配置文件
+            3. 编辑配置文件，填入您的 UP 主 mid 和 Cookie
+            4. 运行 `bilibili-opus-archiver.exe full` 进行全量爬取
+            5. 运行 `bilibili-opus-archiver.exe incremental` 进行增量更新
           files: |
             dist/bilibili-opus-archiver.exe
           draft: false
