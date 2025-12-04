@@ -58,6 +58,16 @@ def ensure_default_files() -> None:
                 print(f"[WARN] Default template {default_file} not found, skipping.")
 
 
+def wait_and_exit(code: int = 1) -> None:
+    """
+    等待用户输入后退出程序。
+    用于避免双击 .exe 运行时因错误而闪退。
+    """
+    print()
+    input("按 Enter 键退出程序...")
+    sys.exit(code)
+
+
 # ====================== main ======================
 
 def main():
@@ -93,12 +103,19 @@ def main():
     cfg = load_config("config.ini")
     env = load_env_files([".env", ".env.local"])
 
+    # 检查 host_mid 是否已填写
+    host_mid = cfg["host_mid"]
+    if host_mid is None:
+        print("[ERROR] 未填写 UP 主的 mid！")
+        print("[INFO] 请在 config.ini 文件中填写 host_mid 参数（UP 主的数字 ID）。")
+        print("[INFO] 例如：host_mid = 123456789")
+        wait_and_exit(1)
+
     cookie = env.get("BILI_COOKIE", "").strip()
     ua_override = env.get("BILI_USER_AGENT", "").strip() or None
 
     session = build_session(cfg, cookie, user_agent_override=ua_override)
 
-    host_mid = cfg["host_mid"]
     output_path = cfg["output_path"]
     delay = cfg["delay"]
     web_location = cfg["web_location"]
