@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import os
+import shutil
 import sys
 
 from lib.crawler import (
@@ -19,9 +21,49 @@ from lib.utils import (
     build_session,
 )
 
+# ====================== default file handling ======================
+
+def get_bundled_path(filename: str) -> str:
+    """
+    获取打包资源的路径。
+    PyInstaller 打包后资源文件在 sys._MEIPASS 目录下，
+    普通运行时在脚本所在目录。
+    """
+    if getattr(sys, 'frozen', False):
+        # 打包后的 exe
+        base_path = sys._MEIPASS
+    else:
+        # 普通 Python 脚本运行
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, filename)
+
+
+def ensure_default_files() -> None:
+    """
+    检查当前目录是否存在 config.ini 和 .env 文件，
+    如果不存在则从默认模板复制。
+    """
+    files_to_check = [
+        ("config.ini", "config.ini.default"),
+        (".env", ".env.default"),
+    ]
+
+    for target_file, default_file in files_to_check:
+        if not os.path.exists(target_file):
+            default_path = get_bundled_path(default_file)
+            if os.path.exists(default_path):
+                shutil.copy(default_path, target_file)
+                print(f"[INFO] Created default {target_file} from template. Please edit it with your settings.")
+            else:
+                print(f"[WARN] Default template {default_file} not found, skipping.")
+
+
 # ====================== main ======================
 
 def main():
+    # 首先确保默认配置文件存在
+    ensure_default_files()
+
     parser = argparse.ArgumentParser(
         description="Bilibili UP主动态数据爬虫（支持全量/差量更新）"
     )
