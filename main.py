@@ -23,14 +23,13 @@ from lib.utils import (
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Bilibili UP 主 opus 动态爬虫（config.ini + .env/.env.local，支持全量 / 差量更新）"
+        description="Bilibili UP主动态数据爬虫（支持全量/差量更新）"
     )
     parser.add_argument(
         "operation",
         nargs="?",
         default="full",
-        choices=["full", "incremental"],
-        help="full: 从头全量爬; incremental: 差量更新",
+        help="full: 全量更新; incremental: 差量更新",
     )
 
     args = parser.parse_args()
