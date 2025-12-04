@@ -7,8 +7,6 @@
 
 </div>
 
----
-
 ## ✨ 功能特性
 
 - 🧲 **全量爬取**：从最早到最新获取所有动态
@@ -31,8 +29,6 @@
 └─ main.py          # 主入口：full / incremental(inc) 两种模式
 ```
 
----
-
 ## ⚙️ 安装依赖
 
 ```bash
@@ -44,8 +40,6 @@ pip install -r requirements.txt
 ```bash
 pip install requests
 ```
-
----
 
 ## 🔧 配置说明
 
@@ -67,8 +61,6 @@ delay = 0.5 ; 每页请求间隔（秒）
 web_location = 333.3333 ; 跟浏览器参数保持一致即可
 ```
 
----
-
 ### 2. `.env`（敏感配置）
 
 ```bash
@@ -77,8 +69,6 @@ BILI_USER_AGENT=    # 可选：填写后将覆盖 config.ini 中的 UA
 ```
 
 你可以用浏览器 DevTools → Network → Request Headers 中的 Cookie。
-
----
 
 ## 🚀 使用方式
 
@@ -92,8 +82,6 @@ python main.py full
 
 * 覆盖原文件
 * 从最早到最新保存所有动态
-
----
 
 ### 🔄 差量更新（追加最新动态）
 
@@ -110,8 +98,6 @@ python main.py inc
 * 一直抓到“遇到已存在的 opus_id”停止
 * 按时间顺序追加到文件末尾
 
----
-
 ## 🧪 输出格式（jsonl）
 
 每行一个动态对象：
@@ -124,8 +110,6 @@ python main.py inc
 * 字段顺序经过清洗，确保 `badge` 在最后
 * 整个文件按时间从**早 → 晚**排序
 
----
-
 ## 💡 一些可扩展想法
 
 你可以轻松基于这个脚手架实现：
@@ -135,8 +119,6 @@ python main.py inc
 * 检测重复内容、分析发布频率
 * 做一个「UP 主动态时间线」网页
 * 日志监控、自动备份、定时任务 crontab
-
----
 
 ## 🧑‍💻 开发者说
 
@@ -150,8 +132,6 @@ python main.py inc
 | `main.py`         | CLI 入口，处理 full/inc 逻辑 |
 
 如果你要扩展 CLI，可以在主程序里继续加命令，或者使用 `argparse` 子命令模式。
-
----
 
 ## 🏁 License
 
